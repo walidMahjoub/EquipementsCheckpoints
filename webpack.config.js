@@ -89,6 +89,7 @@ module.exports = (argv = {}) => ({
             reducers: path.resolve(__dirname, "./src/reducers/"),
             translations: path.resolve(__dirname, "./src/translations/"),
             components: path.resolve(__dirname, "./src/components/"),
+            appFirebase: path.resolve(__dirname, "./src/appFirebase/"),
         }
     },
     devServer: {

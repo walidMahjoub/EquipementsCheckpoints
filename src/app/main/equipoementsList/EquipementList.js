@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useCallback} from 'react'
+import React, {useState, useEffect, useCallback, useContext} from 'react'
 import {FormattedMessage, injectIntl} from 'react-intl'
 import {Table, Icon, Input} from 'antd'
-import {database} from '../../../firbase'
 import style from './EquipementList.scss'
+import {FirebaseContext} from 'appFirebase'
 
 const {Search} = Input
 
@@ -10,6 +10,8 @@ const EquipementList = ({history, intl}) => {
 
     const [equipementList, setEquipementList] = useState([])
     const [filtredEquipementList, setFiltredEquipementList] = useState([])
+
+    const firebase = useContext(FirebaseContext)
 
     const redirectToEquipementDetails = key => {
         const path = `/equipement/${key}`
@@ -51,7 +53,7 @@ const EquipementList = ({history, intl}) => {
     ]
 
     const fetchEquipements = useCallback(() => {
-        database.ref('Equipments').on('value', snapshot => {
+        firebase.equipements().on('value', snapshot => {
             const equipementList = Object.entries(snapshot.val()).map(([key, data]) => ({key, ...data}))
             setEquipementList(equipementList)
             setFiltredEquipementList(equipementList)

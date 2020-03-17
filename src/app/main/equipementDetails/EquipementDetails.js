@@ -1,24 +1,26 @@
-import React, {useState, useEffect, useCallback} from 'react'
+import React, {useState, useEffect, useCallback, useContext} from 'react'
 import Card from 'components/Card/Card'
 import InfoLine from 'components/InfoLine/InfoLine'
 import {FormattedMessage} from 'react-intl'
-import {database} from '../../../firbase'
 import {Icon, Table} from "antd"
 import style from './EquipementDetails.scss'
-
+import {FirebaseContext} from 'appFirebase'
 
 const EquipementDetails = ({match: {params: {equipementId}}}) => {
+
     const [equipement, setEquipement] = useState(null)
     const [checkPoints, setCheckPoints] = useState([])
 
+    const firebase = useContext(FirebaseContext)
+
     const fetchEquipementItem = useCallback(() => {
-        database.ref(`Equipments/${equipementId}`).on('value', snapshot => {
+        firebase.equipement(equipementId).on('value', snapshot => {
             setEquipement(snapshot.val())
         })
     }, [equipementId])
 
     const fetchCheckPoints = useCallback(() => {
-        database.ref('Checkpoints').orderByChild('equipmentKey').equalTo(equipementId).on('value', snapshot => {
+        firebase.checkPointsByEquipementId(equipementId).on('value', snapshot => {
             const checkPoints = Object.entries(snapshot.val()).map(([key, data]) => ({key, ...data}))
             setCheckPoints(checkPoints)
         })
