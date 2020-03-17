@@ -87,7 +87,8 @@ module.exports = (argv = {}) => ({
         alias: {
             actions: path.resolve(__dirname, "./src/actions/"),
             reducers: path.resolve(__dirname, "./src/reducers/"),
-            apis: path.resolve(__dirname, "./src/apis/"),
+            translations: path.resolve(__dirname, "./src/translations/"),
+            components: path.resolve(__dirname, "./src/components/"),
         }
     },
     devServer: {
